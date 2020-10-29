@@ -24,3 +24,16 @@ C:\Users\Marlene\Desktop\DPT1\Sem 1 2020\Games for tutorial\SnakeGame\SnakeGame\
 C:\Users\Marlene\Desktop\DPT1\Sem 1 2020\Games for tutorial\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.dll
 C:\Users\Marlene\Desktop\DPT1\Sem 1 2020\Games for tutorial\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.pdb
 C:\Users\Marlene\Desktop\DPT1\Sem 1 2020\Games for tutorial\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.genruntimeconfig.cache
+C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.exe
+C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.deps.json
+C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.runtimeconfig.json
+C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.runtimeconfig.dev.json
+C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.dll
+C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.pdb
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.csprojAssemblyReference.cache
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.AssemblyInfoInputs.cache
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.AssemblyInfo.cs
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.csproj.CoreCompileInputs.cache
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.dll
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.pdb
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.genruntimeconfig.cache

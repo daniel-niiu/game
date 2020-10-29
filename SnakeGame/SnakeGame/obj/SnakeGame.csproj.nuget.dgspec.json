@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Marlene\\Desktop\\DPT1\\Sem 1 2020\\Games for tutorial\\SnakeGame\\SnakeGame\\SnakeGame.csproj": {}
+    "C:\\Users\\creep\\game\\SnakeGame\\SnakeGame\\SnakeGame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Marlene\\Desktop\\DPT1\\Sem 1 2020\\Games for tutorial\\SnakeGame\\SnakeGame\\SnakeGame.csproj": {
+    "C:\\Users\\creep\\game\\SnakeGame\\SnakeGame\\SnakeGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marlene\\Desktop\\DPT1\\Sem 1 2020\\Games for tutorial\\SnakeGame\\SnakeGame\\SnakeGame.csproj",
+        "projectUniqueName": "C:\\Users\\creep\\game\\SnakeGame\\SnakeGame\\SnakeGame.csproj",
         "projectName": "SnakeGame",
-        "projectPath": "C:\\Users\\Marlene\\Desktop\\DPT1\\Sem 1 2020\\Games for tutorial\\SnakeGame\\SnakeGame\\SnakeGame.csproj",
-        "packagesPath": "C:\\Users\\Marlene\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marlene\\Desktop\\DPT1\\Sem 1 2020\\Games for tutorial\\SnakeGame\\SnakeGame\\obj\\",
+        "projectPath": "C:\\Users\\creep\\game\\SnakeGame\\SnakeGame\\SnakeGame.csproj",
+        "packagesPath": "C:\\Users\\creep\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\creep\\game\\SnakeGame\\SnakeGame\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Marlene\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\creep\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -56,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
