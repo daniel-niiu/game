@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Text.RegularExpressions;
+using System.IO;
+using System.Media;
 
 namespace SnakeGame
 {
@@ -22,6 +25,7 @@ namespace SnakeGame
         private const int MF_BYCOMMAND = 0x00000000;
         public const int SC_MAXIMIZE = 0xF030;
         public const int SC_SIZE = 0xF000;
+        public static bool muteMusic = false;
 
         [DllImport("user32.dll")]
         public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
@@ -105,6 +109,7 @@ namespace SnakeGame
             return Direction;
         }
 
+
         //EXTRA - main menu
         static void MainMenu(List<string> menuOptions, string statement, int? pointsGet, int? pointsAim, bool noPoints)
         {
@@ -113,6 +118,11 @@ namespace SnakeGame
 
             while (true)
             {
+                if (muteMusic == false) 
+                    menuOptions[4] = "|   Mute Music   |";
+                else 
+                    menuOptions[4] = "|   Play Music   |";
+
                 if (pointsGet >= pointsAim && noPoints == true)
                 {
                     result = "YOU WIN!";
@@ -169,9 +179,9 @@ namespace SnakeGame
                 Console.WriteLine("● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ►   ♥");
 
                 // temporary warning for unheld parameters
-                Console.SetCursorPosition(31, 28);
+                Console.SetCursorPosition(41, 28);
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Warning: 'Scoreboard', 'Mute' and 'Help' are currently unavailable.");
+                Console.WriteLine("Warning: 'Help & Rules' is currently unavailable.");
                 
                 //List print out options for user to select by pressing up and down keys
                 for (int i = 0; i < menuOptions.Count; i++)
@@ -232,13 +242,25 @@ namespace SnakeGame
                     else if (index == 2)
                     {
                         //display scoreboard
-                        Environment.Exit(0);
+                        ScoreBoard();
                     }
 
                     else if (index == 4)
                     {
-                        //mute background music
-                        Environment.Exit(0);
+                        //mute or unmute music 
+                        if (muteMusic == false)
+                        {
+                            muteMusic = true;
+                            menuOptions[4] = "|   Play Music   |";
+                        }
+                        else
+                        {
+                            muteMusic = false;
+                            menuOptions[4] = "|   Mute Music   |";
+                        }
+
+                        SoundEffect("Background");
+                        
                     }
 
                     else if (index == 6)
@@ -259,6 +281,232 @@ namespace SnakeGame
                 }
             }
         }
+
+        //get player name
+        static string PlayerName()
+        {
+            string playerName;
+            string message;
+
+            Console.Clear();
+
+            for (; ; )
+            {
+                Console.SetCursorPosition(42, 16);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Please enter your name and press 'Enter'");
+
+                Console.SetCursorPosition(57, 17);
+                Console.ForegroundColor = ConsoleColor.Gray;
+                playerName = Console.ReadLine();
+
+                if (playerName == "")
+                    message = "\t  You must enter your name \n\t\t\t\t\t  (Press 'Enter' to enter your name again)";
+
+                else if (!Regex.IsMatch(playerName, @"^[a-zA-Z]+$"))
+                    message = "  Your name can only contain alphabets \n\t\t\t\t\t  (Press 'Enter' to enter your name again)";
+
+                else if (playerName.Length < 2)
+                    message = "\t   Your name is too short \n\t\t\t\t\t   (Press 'Enter' to enter your name again)";
+
+                else
+                    break;
+
+                Console.Clear();
+                Console.SetCursorPosition(42, 16);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(message);
+                Console.ReadKey();
+                Console.Clear();
+            }
+
+            Console.Clear();
+
+            return playerName;
+        }
+
+        //write player name and score in file
+        static void WriteFile(string playerName, int userPoints)
+        {
+            int x = 0;
+            int totalScore;
+            bool ExistingName = false;
+
+            string fileName = @"Records\records.txt";
+            string[] fileLine = File.ReadAllLines(fileName);
+
+            foreach (string i in fileLine)
+            {
+                string name = (Regex.Replace(i, "[^a-zA-Z]", ""));
+
+                if ( name == playerName )
+                {
+                    totalScore = Int32.Parse(Regex.Replace(i, "[^0-9]", ""));
+                    totalScore = totalScore + userPoints;
+                    fileLine[x] = playerName + "  " + totalScore;
+                    ExistingName = true;
+                }
+
+                x++;
+            }
+
+            File.WriteAllText(fileName, string.Empty);
+
+            foreach ( string i in fileLine)
+            {
+                File.AppendAllText(fileName, i + Environment.NewLine);
+            }
+
+            if ( ExistingName == false)
+            {
+                File.AppendAllText(fileName, playerName + "  " + userPoints + Environment.NewLine);
+            }
+
+            //descending order of score
+            string[] newFileLine = File.ReadAllLines(fileName);
+            string[] _name = new string[newFileLine.Length];
+            int[] score = new int[newFileLine.Length];
+
+            for ( int i = 0 ; i < newFileLine.Length ; i++)
+            {
+                _name[i] = (Regex.Replace(newFileLine[i], "[^a-zA-Z]", ""));
+
+                score[i] = Int32.Parse(Regex.Replace(newFileLine[i], "[^0-9]", ""));
+            }
+
+            File.WriteAllText(fileName, String.Empty);
+
+            for ( int a = 0 ; a < newFileLine.Length ; a++ )
+            {
+                for ( int b = 0 ; b < newFileLine.Length ; b++)
+                {
+                    if ( score[b] < score[b+1] )
+                    {
+                        int itemp = score[b + 1];
+                        score[b + 1] = score[b];
+                        score[b] = itemp;
+
+                        string stemp = _name[b + 1];
+                        _name[b + 1] = _name[b];
+                        _name[b] = stemp;
+                    }
+                }
+            }
+
+            for (int i = 0; i < newFileLine.Length; i++)
+            {
+                newFileLine[i] = _name[i] + "  " + score[i];
+            }
+
+            foreach (string i in newFileLine)                                          //Adds Each Line to the file
+            {
+                File.AppendAllText(fileName, i + Environment.NewLine);
+            }
+        }
+
+
+        //allow player to mute or unmute music 
+        static void SoundEffect(string soundEffect)
+        {
+            var BackgroundMusic = new SoundPlayer(); 
+            BackgroundMusic.SoundLocation = @"SoundEffect\Background.wav";
+
+            var EatSoundEffect = new SoundPlayer(); 
+            EatSoundEffect.SoundLocation = @"SoundEffect\Eat.wav";
+
+            var DamageSoundEffect = new SoundPlayer(); 
+            DamageSoundEffect.SoundLocation = @"SoundEffect\Damage.wav";
+
+            var GameOverSoundEffect = new SoundPlayer(); 
+            GameOverSoundEffect.SoundLocation = @"SoundEffect\GameOver.wav";
+
+            if (muteMusic == true)
+            {
+                //music will stop playing
+                BackgroundMusic.Stop();
+            }
+
+            else
+            {
+                if (soundEffect == "Background")
+                {
+                    //playing the music in a loop
+                    BackgroundMusic.PlayLooping();
+                }
+
+                else if (soundEffect == "Eat")
+                {
+                    //plays eat sound effect when snake eats the food
+                    EatSoundEffect.Play();
+                }
+
+                else if (soundEffect == "Damage")
+                {
+                    //plays damage sound effect when snake hits an obstacle or its own body
+                    DamageSoundEffect.Play();
+                }
+
+                else if (soundEffect == "GameOver")
+                {
+                    //plays game over sound effect
+                    GameOverSoundEffect.Play();
+                }
+            }
+        }
+
+        static void ScoreBoard()
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.SetCursorPosition(56, 1);
+            Console.WriteLine("Top 10 Players ");
+            Console.SetCursorPosition(42, 3);
+            Console.Write("Player Name");
+            Console.SetCursorPosition(72, 3);
+            Console.Write("Total Score");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.SetCursorPosition(0, 4);
+            Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════");
+            
+            string fileName = @"Records\records.txt";
+            string[] fileLine = File.ReadAllLines(fileName);
+
+            List<string> name = new List<string>();
+            List<string> score = new List<string>();
+
+            foreach (string i in fileLine)
+            {
+                name.Add(Regex.Replace(i, "[^a-zA-Z]", ""));
+                score.Add(Regex.Replace(i, "[^0-9]", ""));
+            }
+
+            for (int x = 0; x < 10; x++)
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.SetCursorPosition(43, x + 5);
+                Console.Write(name[x]);
+
+                Console.SetCursorPosition(76, x + 5);
+                Console.Write(score[x]);
+            }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.SetCursorPosition(42, 31);
+            Console.Write("Press 'ENTER' to return to the main menu");
+
+            for (; ; )
+            {
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.SetCursorPosition(0, 32);
+                ConsoleKeyInfo presskey = Console.ReadKey();
+                Console.SetCursorPosition(0, 32);
+                Console.WriteLine(" ");
+                if (presskey.Key == ConsoleKey.Enter) 
+                    break;
+            }
+        }
+
 
         static void Main(string[] args)
         {
@@ -282,7 +530,10 @@ namespace SnakeGame
                 int userPoints = countPoints;
                 int direction = right;
                 bool pauseGame = false;
+                bool checkSoundEffect = false;
                 string LineStatement = "";
+                int soundEffectPlayTime = 3;
+                string playerName;
 
                 Random randomNumbersGenerator = new Random();
 
@@ -359,8 +610,10 @@ namespace SnakeGame
                 Console.WindowWidth = 125;
                 DeploySnake(snakeElements);
 
+                SoundEffect("Background");
                 LineStatement = "Welcome to Snake Game! Do you have what it takes to win the game?";
                 MainMenu(startMenu, LineStatement, 0, 0, false);
+                playerName = PlayerName();
 
                 for (; ; )
                 {
@@ -422,12 +675,16 @@ namespace SnakeGame
                     if (snakeElements.Contains(snakeBody) || obstacles.Contains(snakeBody))
                     {
                         Console.Clear();
+                        SoundEffect("Damage");
+                        checkSoundEffect = true;
                         health -= 1;
 
                         if (health == 0)
                         {
+                            SoundEffect("GameOver");
                             LineStatement = "You scored " + userPoints + " points!";
                             MainMenu(overMenu, LineStatement, userPoints, WinScore, true);
+                            WriteFile(playerName, userPoints);
                             break;
                         }
                     }
@@ -453,6 +710,8 @@ namespace SnakeGame
                         {
                             Console.SetCursorPosition(food[i].col - 1, food[i].row);
                             Console.Write("    ");
+                            SoundEffect("Eat");
+                            checkSoundEffect = true;
                             snakeElements.Enqueue(food[i]);
 
                             //CORE - actions when snake eats the food
@@ -508,6 +767,20 @@ namespace SnakeGame
                     DeployFood(food);
                     sleepTime -= 0.01;
                     Thread.Sleep((int)sleepTime);
+
+                    if ( checkSoundEffect == true )
+                    {
+                        if (soundEffectPlayTime == 0)
+                        {
+                            SoundEffect("Background");
+                            soundEffectPlayTime = 2;
+                            checkSoundEffect = false;
+                        }
+                        else
+                        {
+                            soundEffectPlayTime--;
+                        }
+                    }
                 }
             }
         }

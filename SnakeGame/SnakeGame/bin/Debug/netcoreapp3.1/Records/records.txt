@@ -1,0 +1,10 @@
+daniel 240
+gillian 250
+lily 100
+mohamad 100
+ironman 90
+captain 120
+hulk 160
+hawkeye 200
+panda 30
+icebear 50
