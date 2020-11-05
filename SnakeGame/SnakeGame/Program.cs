@@ -412,12 +412,6 @@ namespace SnakeGame
             var BackgroundMusic = new SoundPlayer(); 
             BackgroundMusic.SoundLocation = @"SoundEffect\Background.wav";
 
-            var EatSoundEffect = new SoundPlayer(); 
-            EatSoundEffect.SoundLocation = @"SoundEffect\Eat.wav";
-
-            var DamageSoundEffect = new SoundPlayer(); 
-            DamageSoundEffect.SoundLocation = @"SoundEffect\Damage.wav";
-
             var GameOverSoundEffect = new SoundPlayer(); 
             GameOverSoundEffect.SoundLocation = @"SoundEffect\GameOver.wav";
 
@@ -433,18 +427,6 @@ namespace SnakeGame
                 {
                     //playing the music in a loop
                     BackgroundMusic.PlayLooping();
-                }
-
-                else if (soundEffect == "Eat")
-                {
-                    //plays eat sound effect when snake eats the food
-                    EatSoundEffect.Play();
-                }
-
-                else if (soundEffect == "Damage")
-                {
-                    //plays damage sound effect when snake hits an obstacle or its own body
-                    DamageSoundEffect.Play();
                 }
 
                 else if (soundEffect == "GameOver")
@@ -698,7 +680,6 @@ namespace SnakeGame
                     if (snakeElements.Contains(snakeBody) || obstacles.Contains(snakeBody))
                     {
                         Console.Clear();
-                        SoundEffect("Damage");
                         checkSoundEffect = true;
                         health -= 1;
 
@@ -733,7 +714,6 @@ namespace SnakeGame
                         {
                             Console.SetCursorPosition(food[i].col - 1, food[i].row);
                             Console.Write("    ");
-                            SoundEffect("Eat");
                             checkSoundEffect = true;
                             snakeElements.Enqueue(food[i]);
 
