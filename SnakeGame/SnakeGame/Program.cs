@@ -489,6 +489,7 @@ namespace SnakeGame
                     break;
             }
         }
+/*
          private static void SetSpeicalFoodTimer()
    {
         // Create a timer with a two second interval.
@@ -498,7 +499,7 @@ namespace SnakeGame
         aTimer.AutoReset = true;
         aTimer.Enabled = true;
     }
-    // Generates food with extra points every 10 seconds
+     Generates food with extra points every 10 seconds
     private static void GenerateSpeicalFood(Object source, ElapsedEventArgs e)
     {
         int foodPoints = 25;
@@ -510,7 +511,7 @@ namespace SnakeGame
                 foodPoints++;
             }
     }
-
+    */
 
         static void Main(string[] args)
         {
@@ -723,9 +724,9 @@ namespace SnakeGame
                                 //add 10 points
                                 countPoints = countPoints + 10;
                                 //place new food in new random position
-                                if (countPoints<100){
+                               // if (countPoints<100){
                                 food[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
-                                Thread.Sleep(2000);
+                                /* Thread.Sleep(2000);
                             }
                             else if (countPoints>=100){
                                 food[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
@@ -742,6 +743,7 @@ namespace SnakeGame
                                 Thread.Sleep(100);
 
                             }
+                            */
                             }
                             
                             
@@ -789,7 +791,7 @@ namespace SnakeGame
 
                     DeployFood(food);
                          //Additional-- places speical food every 10 seconds
-                    SetSpeicalFoodTimer(food);
+                   // SetSpeicalFoodTimer(food);
                     sleepTime -= 0.01;
                     Thread.Sleep((int)sleepTime);
 
