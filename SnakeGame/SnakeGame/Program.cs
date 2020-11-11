@@ -59,6 +59,17 @@ namespace SnakeGame
                 foodPoints++;
             }
         }
+        static void DeploySpeicalFood(List<Position> Speicalfood)
+        {
+            int foodPoints2 = 20;
+            foreach (Position i in Speicalfood)
+            {
+                Console.SetCursorPosition(i.col - 1, i.row);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("({0})", foodPoints2);
+                foodPoints2++;
+            }
+        }
 
         //CORE - draw and deploy obstacles
         static void DeployObstacles(List<Position> obstacles)
@@ -554,7 +565,12 @@ namespace SnakeGame
                 {
                     food.Add(new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2)));
                 }
-
+                //CORE - place food in random position 
+                List<Position> Speicalfood = new List<Position>();
+                for (int i = 0; i < 1; i++)
+                {
+                    Speicalfood.Add(new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2)));
+                }
                 //CORE - snake initialization
                 Queue<Position> snakeElements = new Queue<Position>();
                 for (int i = 0; i <= 3; i++)
@@ -723,15 +739,77 @@ namespace SnakeGame
                             break;
                         }
                     }
+                    // when snake eats speical food
+                    for (int i = 0; i < 1; i++)
+                    {
+                        if ((snakeBody.col == Speicalfood[i].col - 1 || snakeBody.col == Speicalfood[i].col || snakeBody.col == Speicalfood[i].col + 1) && snakeBody.row == Speicalfood[i].row)
+                        {
+                            Console.SetCursorPosition(Speicalfood[i].col - 1, Speicalfood[i].row);
+                            Console.Write("    ");
+                            checkSoundEffect = true;
+                            snakeElements.Enqueue(Speicalfood[i]);
 
+                            //CORE - actions when snake eats the food
+                            do
+                            {
+                                //add 10 points
+                                countPoints = countPoints + 20;
+                                //place new food in new random position
+                                Speicalfood[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
+                            }
+                            while (snakeElements.Contains(Speicalfood[i]) && obstacles.Contains(Speicalfood[i]));
+                            lastFood = Environment.TickCount;
+                            Console.SetCursorPosition(Speicalfood[i].col, Speicalfood[i].row);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            sleepTime--;
+                        }
+                    }
                     //CORE - remove snake traces
                     Position last = snakeElements.Dequeue();
                     Console.SetCursorPosition(last.col, last.row);
                     Console.Write(" ");
 
                     //CORE - erase traces then generate food randomly
-                    if (Environment.TickCount - lastFood >= foodDissapearTime)
+                    if (Environment.TickCount - lastFood >= foodDissapearTime && foodPoints <=100)
                     {
+                        for (int i = 0; i < 1; i++)
+                        {
+                            Console.SetCursorPosition(food[i].col - 1, food[i].row);
+                            Console.Write("    ");
+
+                            do
+                            {
+                                food[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
+                            }
+                            while (snakeElements.Contains(food[i]) || obstacles.Contains(food[i]));
+                            lastFood = Environment.TickCount;
+                            foodPoints++;
+                        }
+                    }
+                    else
+                    if (Environment.TickCount - lastFood >= foodDissapearTime && foodPoints <= 200)
+                    {
+                        foodDissapearTime = 10000;
+                        sleepTime = 50;
+                        for (int i = 0; i < 1; i++)
+                        {
+                            Console.SetCursorPosition(food[i].col - 1, food[i].row);
+                            Console.Write("    ");
+
+                            do
+                            {
+                                food[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
+                            }
+                            while (snakeElements.Contains(food[i]) || obstacles.Contains(food[i]));
+                            lastFood = Environment.TickCount;
+                            foodPoints++;
+                        }
+                    }
+                    else
+                    if (Environment.TickCount - lastFood >= foodDissapearTime && foodPoints <= 500)
+                    {
+                        sleepTime = 30;
+                        foodDissapearTime = 1000;
                         for (int i = 0; i < 1; i++)
                         {
                             Console.SetCursorPosition(food[i].col - 1, food[i].row);
@@ -749,7 +827,8 @@ namespace SnakeGame
 
                     DeployFood(food);
                     sleepTime -= 0.01;
-                    Thread.Sleep((int)sleepTime);
+                    DeploySpeicalFood(Speicalfood);
+                  Thread.Sleep((int)sleepTime);
 
                     if (checkSoundEffect == true)
                     {
