@@ -154,7 +154,7 @@ namespace SnakeGame
                 else if (pointsGet <= pointsAim)
                     Console.WriteLine(result + "\n\t\t\t\t\t\t     " + statement);
                 else
-                    Console.WriteLine(result + "\n\t\t\t\t" + statement);
+                    Console.WriteLine(result + "\n\t\t\t      " + statement);
 
                 //display game logo in main menu
                 Console.SetCursorPosition(41, 2);
@@ -177,11 +177,6 @@ namespace SnakeGame
                 Console.WriteLine("●                                              ");
                 Console.SetCursorPosition(41, 11);
                 Console.WriteLine("● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ►   ♥");
-
-                // temporary warning for unheld parameters
-                Console.SetCursorPosition(41, 28);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Warning: 'Help & Rules' is currently unavailable.");
 
                 //List print out options for user to select by pressing up and down keys
                 for (int i = 0; i < menuOptions.Count; i++)
@@ -364,7 +359,6 @@ namespace SnakeGame
 
         }
 
-
         //allow player to mute or unmute music 
         static void SoundEffect(string soundEffect)
         {
@@ -372,7 +366,7 @@ namespace SnakeGame
             BackgroundMusic.SoundLocation = @"SoundEffect\Background.wav";
 
             var GameOverSoundEffect = new SoundPlayer();
-            GameOverSoundEffect.SoundLocation = @"SoundEffect\GameOver.wav";
+            GameOverSoundEffect.SoundLocation = @"SoundEffect\GameOver.wav";;
 
             if (muteMusic == true)
             {
@@ -403,7 +397,7 @@ namespace SnakeGame
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.SetCursorPosition(56, 1);
             Console.WriteLine("Top 10 Players ");
-            Console.ForegroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Magenta;
             Console.SetCursorPosition(42, 3);
             Console.Write("Player Name");
             Console.SetCursorPosition(72, 3);
@@ -426,7 +420,7 @@ namespace SnakeGame
 
             for (int x = 0; x < 10; x++)
             {
-                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.SetCursorPosition(43, x + 5);
                 Console.Write(name[x]);
 
@@ -465,7 +459,7 @@ namespace SnakeGame
             Console.WriteLine("═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════");
 
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.SetCursorPosition(15, 7);
+            Console.SetCursorPosition(13, 7);
             Console.WriteLine("Hello! Welcome to the Snake Game! Here are some tips and guides to help you play and win this game!");
             Console.SetCursorPosition(20, 10);
             Console.WriteLine("1. The snake can be controlled using your arrow keys.");
@@ -602,7 +596,7 @@ namespace SnakeGame
                 DeploySnake(snakeElements);
 
                 SoundEffect("Background");
-                LineStatement = "Welcome to Snake Game! Do you have what it takes to win the game?";
+                LineStatement = "Welcome to the Snake Game! Do you have what it takes to win the game?";
                 MainMenu(startMenu, LineStatement, 0, 0, false);
                 playerName = PlayerName();
 

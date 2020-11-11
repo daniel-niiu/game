@@ -56,5 +56,5 @@ C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\runtimes\win\lib
 C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
 C:\Users\creep\game\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.csproj.CoreCompileInputs.cache
 C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.csproj.CopyComplete
+C:\Users\creep\game\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.csproj.CoreCompileInputs.cache

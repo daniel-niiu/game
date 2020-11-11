@@ -8,3 +8,4 @@ hulk 160
 hawkeye 200
 panda 30
 icebear 50
+brrrr  0
