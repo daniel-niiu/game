@@ -506,7 +506,6 @@ namespace SnakeGame
             }
         }
 
-
         static void Main(string[] args)
         {
             Console.Title = "Snake";
@@ -672,7 +671,7 @@ namespace SnakeGame
                     //EXTRA - increasing difficulty
                     if (userPoints >= 50 && userPoints < 100)
                     {
-                        foodDissapearTime = 10000;
+                        foodDissapearTime = 9000;
                         sleepTime = 80;
                         Console.SetCursorPosition(48, 3);
                         Console.WriteLine(" Difficulty Increased! x1 ");
@@ -760,6 +759,7 @@ namespace SnakeGame
                             break;
                         }
                     }
+
                     //EXTRA - when snake eats special food
                     for (int i = 0; i < 1; i++)
                     {
@@ -770,39 +770,42 @@ namespace SnakeGame
                             checkSoundEffect = true;
                             snakeElements.Enqueue(Specialfood[i]);
 
-                            //CORE - actions when snake eats the food
                             do
                             {
-                                //add 10 points
                                 countPoints = countPoints + 20;
-                                //place new food in new random position
                                 Specialfood[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
                             }
                             while (snakeElements.Contains(Specialfood[i]) && obstacles.Contains(Specialfood[i]));
+
                             lastFood = Environment.TickCount;
                             Console.SetCursorPosition(Specialfood[i].col, Specialfood[i].row);
                             Console.ForegroundColor = ConsoleColor.Green;
                             sleepTime--;
                         }
                     }
+
                     //CORE - remove snake traces
                     Position last = snakeElements.Dequeue();
                     Console.SetCursorPosition(last.col, last.row);
                     Console.Write(" ");
 
                     //CORE - erase traces then generate food randomly
-                    if (Environment.TickCount - lastFood >= foodDissapearTime && foodPoints <=100)
+                    if (Environment.TickCount - lastFood >= foodDissapearTime && foodPoints <= 100)
                     {
                         for (int i = 0; i < 1; i++)
                         {
                             Console.SetCursorPosition(food[i].col - 1, food[i].row);
                             Console.Write("    ");
 
+                            Console.SetCursorPosition(Specialfood[i].col - 1, Specialfood[i].row);
+                            Console.Write("    ");
+
                             do
                             {
                                 food[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
+                                Specialfood[i] = new Position(randomNumbersGenerator.Next(GameHeightMin, GameHeightMax), randomNumbersGenerator.Next(2, Console.WindowWidth - 2));
                             }
-                            while (snakeElements.Contains(food[i]) || obstacles.Contains(food[i]));
+                            while (snakeElements.Contains(food[i]) || obstacles.Contains(food[i]) || snakeElements.Contains(Specialfood[i]) || obstacles.Contains(Specialfood[i]));
                             lastFood = Environment.TickCount;
                             foodPoints++;
                         }
