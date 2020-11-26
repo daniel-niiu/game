@@ -358,7 +358,7 @@ namespace SnakeGame
                 x++;
             }
 
-            File.WriteAllText(fileName, string.Empty);
+            File.WriteAllText(fileName, String.Empty);
 
             foreach (string i in fileLine)
             {
@@ -369,6 +369,47 @@ namespace SnakeGame
             {
                 File.AppendAllText(fileName, playerName + "  " + userPoints + Environment.NewLine);
             }
+
+            string[] newLine = File.ReadAllLines(fileName);
+            string[] Name = new string [newLine.Length];
+            int[] Score = new int[newLine.Length];
+
+            for (int i = 0; i < newLine.Length; i++)
+            {
+                Name[i] = (Regex.Replace(newLine[i], "[^a-zA-Z]", ""));
+                Score[i] = Int32.Parse(Regex.Replace(newLine[i], "[^0-9]", ""));
+            }
+
+            File.WriteAllText(fileName, string.Empty);
+
+            for (int i = 0; i < newLine.Length; i++)
+            {
+                for (int j = 0; j < newLine.Length - 1; j++)
+                {
+                    if (Score[j] < Score[j + 1])
+
+                    {
+                        int itemp = Score[j + 1];
+                        Score[j + 1] = Score[j];
+                        Score[j] = itemp;
+
+                        string stemp = Name[j + 1];
+                        Name[j + 1] = Name[j];
+                        Name[j] = stemp;
+                    }
+                }
+            }
+
+            for (int i = 0; i < newLine.Length; i++)
+            {
+                newLine[i] = Name[i] + " " + Score[i];
+            }
+
+            foreach (string i in newLine)                                       
+            {
+                File.AppendAllText(fileName, i + Environment.NewLine);
+            }
+
 
         }
 
@@ -689,6 +730,7 @@ namespace SnakeGame
                     {
                         LineStatement = "Congratulations! You have reached the goal and won the game!";
                         MainMenu(overMenu, LineStatement, userPoints, WinScore, true);
+                        WriteFile(playerName, userPoints);
                         break;
                     }
 
@@ -702,9 +744,9 @@ namespace SnakeGame
                         if (health == 0)
                         {
                             SoundEffect("GameOver");
+                            WriteFile(playerName, userPoints);
                             LineStatement = "You scored " + userPoints + " points!";
                             MainMenu(overMenu, LineStatement, userPoints, WinScore, true);
-                            WriteFile(playerName, userPoints);
                             break;
                         }
                     }
